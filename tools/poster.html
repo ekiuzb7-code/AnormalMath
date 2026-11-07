@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>poster</title></head>
+<body style="margin:0;background:#000">
+<video id="v" src="../assets/splash.mp4" muted playsinline preload="auto"></video>
+<script>
+  window.grab = (t) => new Promise((resolve) => {
+    const v = document.getElementById("v");
+    const draw = () => {
+      const c = document.createElement("canvas");
+      c.width = v.videoWidth;
+      c.height = v.videoHeight;
+      c.getContext("2d").drawImage(v, 0, 0, c.width, c.height);
+      resolve(c.toDataURL("image/jpeg", 0.86));
+    };
+    if (v.readyState >= 2) { v.currentTime = t; v.onseeked = draw; }
+    else { v.onloadeddata = () => { v.currentTime = t; v.onseeked = draw; }; }
+  });
+</script>
+</body>
+</html>
